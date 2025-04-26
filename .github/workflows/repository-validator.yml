@@ -1,0 +1,49 @@
+# -------------------------------------------------------------------------------
+# Repository Validator Workflow
+#
+# Purpose:
+#   - Validate the basic structure of the repository
+#   - Ensure critical directories are present
+#   - Prevent accidental structural corruption over time
+#
+# What it does:
+#   - Confirms the existence of required folders (src, docs, images, tests)
+#   - Lists repository contents for visibility
+#
+# Trigger:
+#   - Runs automatically on every push to the main branch
+#
+# Author: Your Name
+# Date: 2025-04-26
+# -------------------------------------------------------------------------------
+
+name: Repository Validator
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  validate-repository:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Validate critical directories
+        run: |
+          REQUIRED_DIRS="src docs images tests"
+          for dir in $REQUIRED_DIRS; do
+            if [ ! -d "$dir" ]; then
+              echo "::error ::Missing required directory: $dir"
+              exit 1
+            fi
+          done
+          echo "::notice ::All required directories are present and repository structure is valid."
+
+      - name: List repository files
+        run: |
+          echo "Listing all repository files for review:"
+          ls -R

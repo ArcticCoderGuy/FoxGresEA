@@ -1,0 +1,49 @@
+# -------------------------------------------------------------------------------
+# Security Scan Workflow
+#
+# Purpose:
+#   - Ensure sensitive files are not committed into the repository
+#   - Prevent accidental exposure of secrets or configuration files
+#
+# What it does:
+#   - Scans for forbidden files like .env, .pfx, .key, and other common secrets
+#   - Alerts and blocks the push if such files are detected
+#
+# Trigger:
+#   - Runs automatically on every push to the main branch
+#
+# Author: Your Name
+# Date: 2025-04-26
+# -------------------------------------------------------------------------------
+
+  name: Security Scan
+
+  on:
+    push:
+      branches:
+        - main
+  
+  jobs:
+    scan-for-secrets:
+      runs-on: ubuntu-latest
+  
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v3
+  
+        - name: Scan for forbidden files
+          run: |
+            FORBIDDEN_FILES=".env *.pfx *.key *.pem *.crt"
+            for file in $FORBIDDEN_FILES; do
+              if ls $file 1> /dev/null 2>&1; then
+                echo "::error ::Forbidden file detected: $file. Remove sensitive files before pushing!"
+                exit 1
+              fi
+            done
+            echo "::notice ::No forbidden files found. Security scan passed."
+  
+        - name: List key file types for review
+          run: |
+            echo "Listing all potentially sensitive files (if any):"
+            find . -type f \( -iname "*.env" -o -iname "*.pfx" -o -iname "*.key" -o -iname "*.crt" -o -iname "*.pem" \)
+  

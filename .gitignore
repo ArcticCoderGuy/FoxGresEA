@@ -1,0 +1,32 @@
+# Ignore MetaTrader compiled and temporary files
+*.ex5
+*.ex4
+*.log
+*.tmp
+*.bak
+*.cache
+
+# Ignore system-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore VSCode settings (optional)
+.vscode/
+
+# Ignore environment files (security reasons)
+.env
+
+# Ignore backup, archive, and data files
+*.zip
+*.rar
+*.7z
+*.tar.gz
+
+# Ignore machine learning models (future proof)
+*.h5
+*.pt
+*.pkl
+
+# Ignore data dumps (massive files)
+*.csv
+*.json

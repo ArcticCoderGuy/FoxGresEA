@@ -1,0 +1,35 @@
+name: Code Integrity Check
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  code-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Check file names and structure
+        run: |
+          if [ ! -d "src" ]; then
+            echo "::error ::Missing src directory."
+            exit 1
+          fi
+          if [ ! -d "docs" ]; then
+            echo "::error ::Missing docs directory."
+            exit 1
+          fi
+          if [ ! -d "tests" ]; then
+            echo "::error ::Missing tests directory."
+            exit 1
+          fi
+          if [ ! -d "images" ]; then
+            echo "::error ::Missing images directory."
+            exit 1
+          fi
+          echo "::notice ::All critical directories exist. Code structure looks good."
+
