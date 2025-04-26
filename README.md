@@ -1,5 +1,11 @@
-This project uses GitHub Actions for quality and security validation.
-Final test for actions
+# FoxGresEA
+
+[![Code Integrity Checker](https://github.com/ArcticCoderGuy/FoxGresEA/actions/workflows/code-integrity.yml/badge.svg)](https://github.com/ArcticCoderGuy/FoxGresEA/actions/workflows/code-integrity.yml)
+[![Repository Validator](https://github.com/ArcticCoderGuy/FoxGresEA/actions/workflows/repository-validator.yml/badge.svg)](https://github.com/ArcticCoderGuy/FoxGresEA/actions/workflows/repository-validator.yml)
+[![Security Scan](https://github.com/ArcticCoderGuy/FoxGresEA/actions/workflows/security-scan.yml/badge.svg)](https://github.com/ArcticCoderGuy/FoxGresEA/actions/workflows/security-scan.yml)
+
+FoxGresEA is a project built with a focus on clean structure, security, and code integrity.
+...
 
 # FoxGresEA
 
