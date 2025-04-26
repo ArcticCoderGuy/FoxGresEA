@@ -22,7 +22,7 @@ name: Repository Validator
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   validate-repository:

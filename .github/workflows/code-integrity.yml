@@ -1,35 +1,61 @@
-name: Code Integrity Check
+# -------------------------------------------------------------------------------
+# Code Integrity Checker Workflow
+#
+# Purpose:
+#   - Ensure project structure is maintained
+#   - Prevent unwanted binary files from being pushed into the repository
+#   - Improve overall codebase hygiene and maintainability
+#
+# What it does:
+#   - Checks that required directories (src, docs, tests, images) exist
+#   - Lists all files in the repository for reference
+#   - Detects and blocks .exe, .dll, .bin files to avoid executable leaks
+#
+# Trigger:
+#   - Runs automatically on every push to the main branch
+#
+# Author: Your Name
+# Date: 2025-04-26
+# -------------------------------------------------------------------------------
+
+name: Code Integrity Checker
 
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
-  code-check:
+  code-integrity-check:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Check file names and structure
+      - name: List project files
         run: |
-          if [ ! -d "src" ]; then
-            echo "::error ::Missing src directory."
-            exit 1
-          fi
-          if [ ! -d "docs" ]; then
-            echo "::error ::Missing docs directory."
-            exit 1
-          fi
-          if [ ! -d "tests" ]; then
-            echo "::error ::Missing tests directory."
-            exit 1
-          fi
-          if [ ! -d "images" ]; then
-            echo "::error ::Missing images directory."
-            exit 1
-          fi
-          echo "::notice ::All critical directories exist. Code structure looks good."
+          echo "Listing project files:"
+          ls -R
 
+      - name: Check for unwanted binary files
+        run: |
+          echo "Checking for unwanted binary files..."
+          if ls *.exe *.dll *.bin 2>/dev/null; then
+            echo "::error ::Binary files detected! Remove executable files before pushing."
+            exit 1
+          else
+            echo "No unwanted binary files found."
+          fi
+
+      - name: Confirm required project structure
+        run: |
+          echo "Confirming basic structure..."
+          REQUIRED_DIRS="src docs tests images"
+          for dir in $REQUIRED_DIRS; do
+            if [ ! -d "$dir" ]; then
+              echo "::error ::Missing required directory: $dir"
+              exit 1
+            fi
+          done
+          echo "Project structure confirmed."
