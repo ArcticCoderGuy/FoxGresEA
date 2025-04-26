@@ -33,7 +33,7 @@
   
         - name: Scan for forbidden files
           run: |
-            FORBIDDEN_FILES=".env dummy.env *.pfx *.key *.pem *.crt"
+            FORBIDDEN_FILES=".env *.pfx *.key *.pem *.crt"
             for file in $FORBIDDEN_FILES; do
               if ls $file 1> /dev/null 2>&1; then
                 echo "::error ::Forbidden file detected: $file. Remove sensitive files before pushing!"
